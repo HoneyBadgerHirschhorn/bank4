@@ -36,6 +36,25 @@ public class Branch {
         return customerList;
     }
 
+    public void createCustomerList(){
+        Scanner createCustomerListScanner = new Scanner(System.in);
+        System.out.println("Please enter a name for the first customer on the list.");
+        String name = createCustomerListScanner.nextLine();
+        customer.setCustomerName(name);
+        System.out.println("Please enter an initial transaction.");
+        boolean isInt = createCustomerListScanner.hasNextInt();
+        if (isInt) {
+            double transaction = createCustomerListScanner.nextDouble();
+            customer.getTransactions().add(transaction);
+            Customer newCustomer = new Customer(name,customer.getTransactions());
+            System.out.println("A new file with an initial transaction of "+transaction+" has been entered for "+ newCustomer.getCustomerName()+" a member of "+ getBranchName()+ "bank branch.");
+        }
+        if (!isInt){
+            System.out.println("You did not enter a valid number, please try again.");
+            createCustomerList();
+        }
+    }
+
     public void setCustomerList() {
         String name = customer.getCustomerName();
         ArrayList<Double> transactions = customer.getTransactions();

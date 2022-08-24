@@ -67,10 +67,11 @@ public class Bank {
                     break;
                 case 3:
                     branch.setBranchName();
-                    branch.setCustomerList();
                     String name = branch.getBranchName();
+                    branch.createCustomerList();
                     ArrayList<Customer> customerList = branch.getCustomerList();
                     Branch newBranch = new Branch(name,customerList);
+                    branchList.add(newBranch);
                     mainScanner.nextLine();
                     break;
                 case 4:
@@ -114,32 +115,30 @@ public class Bank {
         Scanner selectCustomerScanner = new Scanner(System.in);
         System.out.println("Which customer file do you want to work with?");
         String name = selectCustomerScanner.nextLine();
-        int ct = 0;
         for (Branch b1 : branchList){
-            ArrayList<Customer> a1 = b1.getCustomerList();
-                for (Customer c1 : a1){
+                for (Customer c1 : b1.getCustomerList()){
                     if (Objects.equals(c1.getCustomerName(),name)){
                         b1.setBranchName(b1.getBranchName());
                         b1.setCustomerList(b1.getCustomerList());
                         customer.setCustomerName(c1.getCustomerName());
                         customer.setTransactions(c1.getTransactions());
-                        Customer c2 = new Customer(customer.getCustomerName(), customer.getTransactions());
-                        c1 = c2;
-                        b1.getCustomerList().set(a1.indexOf(c1),c2);
-                        //Branch b2 = new Branch(b2.getBranchName(),)
+                        Branch b2 = new Branch(b1.getBranchName(),b1.getCustomerList());
                         System.out.println("Do you want to add a transaction (1), change the customer name (2), or return to the main menu (3) ?");
                         boolean isInt = selectCustomerScanner.hasNextInt();
                         if (isInt){
                             int choice = selectCustomerScanner.nextInt();
                             switch (choice){
                                 case 1:
-                                    c2.setTransactions();
-                                    b1.setCustomerList();
+                                    customer.setTransactions();
+                                    Customer c2 = new Customer(customer.getCustomerName(), customer.getTransactions());
+                                    b1.getCustomerList().set(b1.getCustomerList().indexOf(c1),c2);
                                     selectCustomer();
                                     selectCustomerScanner.nextLine();
                                     break;
                                 case 2:
-                                    c2.setCustomerName();
+                                    customer.setCustomerName();
+                                    Customer c3 = new Customer(customer.getCustomerName(), customer.getTransactions());
+                                    b1.getCustomerList().set(b1.getCustomerList().indexOf(c1),c3);
                                     selectCustomer();
                                     selectCustomerScanner.nextLine();
                                     break;
